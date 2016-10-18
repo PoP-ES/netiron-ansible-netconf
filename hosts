@@ -1,0 +1,2 @@
+[brocade]
+10.51.64.26 ansible_ssh_port=22
