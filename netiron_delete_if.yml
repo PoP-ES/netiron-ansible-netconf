@@ -1,0 +1,24 @@
+---
+- name: set or delete interfaces
+  hosts: brocade
+  gather_facts: no
+  connection: local
+  vars_prompt:
+  - name: "USER"
+    prompt: "User"
+    private: no
+  - name: "PASS"
+    prompt: "Password"
+    private: yes
+
+  tasks:
+  - name: delete interface 1/1 with ip 10.10.10.10
+    netiron_set_interface:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      if_id="ethernet 1/1"
+      if_ip="10.2.1.1/24"
+      action=delete
+      enable=no

@@ -1,0 +1,22 @@
+---
+- name: Get Device Facts
+  hosts: brocade
+  gather_facts: no
+  connection: local
+  vars_prompt:
+  - name: "USER"
+    prompt: "User"
+    private: no
+  - name: "PASS"
+    prompt: "Password"
+    private: yes
+
+  tasks:
+  - name: get config
+    netiron_get_config:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      ofile=./b1.xml
+      filter=interface-config

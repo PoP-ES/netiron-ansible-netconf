@@ -1,0 +1,53 @@
+---
+- name: Create or delete vlans
+  hosts: brocade
+  gather_facts: no
+  connection: local
+  vars_prompt:
+  - name: "USER"
+    prompt: "User"
+    private: no
+  - name: "PASS"
+    prompt: "Password"
+    private: yes
+
+  tasks:
+  - name: create vlan 400
+    netiron_set_vlan:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      vlan_id=400
+      action=create
+  
+  - name: create vlan named prod
+    netiron_set_vlan:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      vlan_id=410
+      action=create
+      vlan_name=prod
+  
+  - name: create vlan prod and configure interfaces 1/1 to 1/2 tagged
+    netiron_set_vlan:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      vlan_id=410
+      action=create
+      vlan_name=prod
+      tagged=yes
+      vlan_interfaces="ethernet 1/1 to 1/2"
+
+  - name: delete vlan 400
+    netiron_set_vlan:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
+      vlan_id=400
+      action=delete

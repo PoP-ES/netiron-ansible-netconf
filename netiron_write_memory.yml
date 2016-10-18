@@ -1,0 +1,20 @@
+---
+- name: execute command write memory
+  hosts: brocade
+  gather_facts: no
+  connection: local
+  vars_prompt:
+  - name: "USER"
+    prompt: "User"
+    private: no
+  - name: "PASS"
+    prompt: "Password"
+    private: yes
+
+  tasks:
+  - name: Execute command write memory
+    netiron_write_memory:
+      host={{ inventory_hostname }}
+      port={{ ansible_ssh_port }}
+      user={{ USER }}
+      passwd={{ PASS }}
